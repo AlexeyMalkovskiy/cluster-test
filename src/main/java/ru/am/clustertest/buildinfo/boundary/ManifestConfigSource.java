@@ -24,7 +24,11 @@ public class ManifestConfigSource implements ConfigSource {
         } catch (IOException e) {
             // ignore
         }
-        String build = manifestEntries.get("build-number");
+        setDefaultValues();
+    }
+
+	private void setDefaultValues() {
+		String build = manifestEntries.get("build-number");
         if (build == null || build.isBlank()) {
         	manifestEntries.remove("build-number");
         }
@@ -32,7 +36,7 @@ public class ManifestConfigSource implements ConfigSource {
         if (branch == null || branch.isBlank()) {
         	manifestEntries.put("branch", "unknown");
         }
-    }
+	}
 
     @Override
     public Map<String, String> getProperties() {
