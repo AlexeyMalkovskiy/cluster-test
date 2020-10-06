@@ -23,7 +23,7 @@ public class SessionData implements Serializable {
     
     @Inject
     public void init(@ConfigProperty(name = "server.name") String serverName,
-                     @ConfigProperty(name = "app.version") String appVer,
+                     @ConfigProperty(name = "build-number") String appVer,
                      @ConfigProperty(name = "build-time") String bldTime) throws Exception {
         this.initialServerName = serverName;
         this.initialIp = InetAddress.getLocalHost().getHostAddress();

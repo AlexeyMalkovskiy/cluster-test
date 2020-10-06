@@ -24,6 +24,14 @@ public class ManifestConfigSource implements ConfigSource {
         } catch (IOException e) {
             // ignore
         }
+        String build = manifestEntries.get("build-number");
+        if (build == null || build.isBlank()) {
+        	manifestEntries.remove("build-number");
+        }
+        String branch = manifestEntries.get("branch");
+        if (branch == null || branch.isBlank()) {
+        	manifestEntries.put("branch", "unknown");
+        }
     }
 
     @Override
