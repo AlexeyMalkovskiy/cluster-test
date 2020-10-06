@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Session info</title>
+</head>
+<body>
+	<h1>Session info</h1>
+	<table border="1">
+		<tr>
+			<td>App version</td>
+			<td><div id="app-ver"></div></td>
+		</tr>
+		<tr>
+			<td>Build time</td>
+			<td><div id="build-time"></div></td>
+		</tr>
+		<tr>
+			<td>Session Id</td>
+			<td><div id="ses-id"></div></td>
+		</tr>
+		<tr>
+			<td>Initial Server Name</td>
+			<td><div id="initial-srv"></div></td>
+		</tr>
+		<tr>
+			<td>Initial Ip</td>
+			<td><div id="initial-ip"></div></td>
+		</tr>
+		<tr>
+			<td>Curr Server Name</td>
+			<td><div id="curr-srv"></div></td>
+		</tr>
+		<tr>
+			<td>Current Ip</td>
+			<td><div id="curr-ip"></div></td>
+		</tr>
+		<tr>
+			<td>Value</td>
+			<td><div id="val"></div></td>
+		</tr>
+	</table>
+	<table>
+		<tbody>
+			<tr>
+				<td><button id="btn-refresh" onclick="refresh()">Refresh</button></td>
+				<td><button id="btn-set" onclick="update()">Set value</button><input id="txt" type="text"/></td>
+				<td><button id="btn-delete" onclick="invalidate()">Close session</button></td>
+			</tr>
+		</tbody>
+	</table>
+	<script type="text/javascript">
+		var txt = document.getElementById("txt");
+		var appVer = document.getElementById("app-ver");
+		var buildTime = document.getElementById("build-time");
+		var sesId = document.getElementById("ses-id");
+		var initialServerName = document.getElementById("initial-srv");
+		var initialIp = document.getElementById("initial-ip");
+		var currServerName = document.getElementById("curr-srv");
+		var currentIp = document.getElementById("curr-ip");
+		var val = document.getElementById("val");
+		async function refresh() {
+			let promise = fetch("resources/session",
+						      {
+						        method: 'GET'
+						      }
+						    );
+		    let resp = await promise;
+		    if (resp.ok) {
+			    let appData = await resp.json();
+			    appVer.innerHTML = appData.appVersion;
+			    buildTime.innerHTML = appData.buildTime;
+			    sesId.innerHTML = appData.sessionId;
+			    initialServerName.innerHTML = appData.initialServerName;
+			    initialIp.innerHTML = appData.initialIp;
+			    currServerName.innerHTML = appData.currServerName;
+			    currentIp.innerHTML = appData.currentIp;
+			    val.innerHTML = appData.data;
+		    } else {
+		    	alert("Error: " + resp.statusText);
+		    }
+		}
+		
+		async function update() {
+			let promise = fetch("resources/session",
+				      {
+				        method: 'POST',
+				        body: txt.value
+				      }
+				    );
+  			let resp = await promise;
+  			if (resp.ok) {
+  				txt.value = "";
+  		      	refresh();
+  		    } else {
+  		      	alert("Error: " + resp.statusText);
+  		    }
+		}
+		
+		async function invalidate() {
+			let promise = fetch("resources/session",
+				      {
+				        method: 'DELETE',
+				        headers: { 
+			                'Content-type': 'application/json'
+			            } 
+				      }
+				    );
+  			let resp = await promise;
+  			if (resp.ok) {
+  				txt.value = "";
+  		      	refresh();
+  		    } else {
+  		      	alert("Error: " + resp.statusText);
+  		    }
+		}
+		
+		refresh();
+	</script>
+</body>
+</html>
