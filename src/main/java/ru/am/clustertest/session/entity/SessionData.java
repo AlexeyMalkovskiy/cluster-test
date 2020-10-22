@@ -18,6 +18,7 @@ public class SessionData implements Serializable {
     private String initialIp;
     private String currServerName;
     private String currentIp;
+    private String title;
     private String data;
     private String buildTime;
     
@@ -78,6 +79,14 @@ public class SessionData implements Serializable {
     public void setCurrentIp(String currentIp) {
         this.currentIp = currentIp;
     }
+    
+    public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
     public String getData() {
         return data;
@@ -103,6 +112,7 @@ public class SessionData implements Serializable {
         copy.setInitialIp(initialIp);
         copy.setCurrServerName(currServerName);
         copy.setCurrentIp(currentIp);
+        copy.setTitle(title);
         copy.setData(data);
         copy.setBuildTime(buildTime);
         return copy;

@@ -16,9 +16,9 @@ public class ManifestConfigSource implements ConfigSource {
     public ManifestConfigSource() {
         var path = this.getClass().getResource("ManifestConfigSource.class").toString();
         int idx = path.indexOf("WEB-INF");
-        String manifestPath = path.substring(0, idx) + "META-INF/MANIFEST.MF";
+        var manifestPath = path.substring(0, idx) + "META-INF/MANIFEST.MF";
         try (InputStream manifestIn = new URL(manifestPath).openStream()) {
-            Manifest manifest = new Manifest(manifestIn);
+            var manifest = new Manifest(manifestIn);
             manifest.getMainAttributes().entrySet().forEach(e -> 
                 manifestEntries.put(e.getKey().toString(), e.getValue().toString()));
         } catch (IOException e) {

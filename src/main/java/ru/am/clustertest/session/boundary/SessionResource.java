@@ -29,6 +29,10 @@ public class SessionResource {
     @ConfigProperty(name = "server.name")
     String serverName;
     
+    @Inject
+    @ConfigProperty(name = "app.title")
+    String title;
+    
     @Path("")
     @GET
     public SessionData getSessionData(@Context HttpServletRequest req) throws Exception {
@@ -36,6 +40,7 @@ public class SessionResource {
         data.setCurrServerName(serverName);
         data.setCurrentIp(currentIp);
         data.setSessionId(req.getSession().getId());
+        data.setTitle(title);
         return data.unwrap();
     }
     
